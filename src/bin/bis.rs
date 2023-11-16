@@ -1,5 +1,3 @@
-use std::f64::consts::E;
-
 use proyecto_matecomp::MAX_ITER;
 
 fn main() {
@@ -43,22 +41,17 @@ impl<'a> BM<'a> {
 impl<'a> Iterator for BM<'a> {
     type Item = f64;
     fn next(&mut self) -> Option<Self::Item> {
-        matches!(self.iter, Some(x) if x > 0)
-            .then(|| {
-                *self.iter.as_mut().unwrap() -= 1;
-                let m = (self.a + self.b) / 2.;
-                let ins = [self.a, m, self.b];
-                let pos = ins
-                    .iter()
-                    .enumerate()
-                    .find_map(|(i, &v)| ((self.f)(v) >= 0. && i > 0).then_some(i));
+        matches!(self.iter, Some(x) if x > 0).then(|| {
+            *self.iter.as_mut().unwrap() -= 1;
+            let m = (self.a + self.b) / 2.;
 
-                pos.and_then(|i| {
-                    self.a = ins[i - 1];
-                    self.b = ins[i];
-                    Some(m)
-                })
-            })
-            .flatten()
+            if (self.f)(m) >= 0. {
+                self.b = m;
+            } else {
+                self.a = m;
+            }
+
+            m
+        })
     }
 }
