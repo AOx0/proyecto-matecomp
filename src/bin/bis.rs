@@ -2,8 +2,11 @@ use proyecto_matecomp::MAX_ITER;
 
 fn main() {
     let mut p = 10.;
-    let solver =
-        BM::new(&|x| x.powf(5.) + 20. * x.powf(2.) + x + 1.5, (-3., -2.)).with_iter(MAX_ITER);
+    let solver = BM::new(
+        &|x| x.powf(5.) + 20. * x.powf(2.) + x + 1.5,
+        (f64::MIN, f64::MAX),
+    )
+    .with_iter(MAX_ITER);
 
     for (i, s) in solver.into_iter().enumerate() {
         if s == p {
