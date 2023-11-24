@@ -11,7 +11,6 @@ x = symbols('x')
 # ESPACIO DE LAS FUNCIONES
 
 def secante(funcion, error):
-    funcion = eval(funcion)
     # 40, 39
     solp1 = 10
     # solm1 = random.uniform(1, 10)
@@ -38,7 +37,6 @@ def secante(funcion, error):
 
 
 def bisection_method(funcion, error):
-    funcion = eval(funcion)
     a = -100.0
     b = 100.0
     iterations = 0
@@ -64,15 +62,14 @@ def calc_error(punto_n, punto_v):
 
 
 def newton_raphson(funcion, error_g):
-    g_func = eval(funcion)
-    g_func_prima = g_func.diff(x)
+    g_func_prima = funcion.diff(x)
     error = 1.0
     iteracion = 0
     X_val = random.uniform(1, 100)
     X_new = 0
     error_l = []
     while error >= error_g:
-        X_new = X_val - ((g_func.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
+        X_new = X_val - ((funcion.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
         error = calc_error(X_new, X_val)
         error_l.append(error)
         iteracion += 1
@@ -102,11 +99,7 @@ mistake = bar1.slider('error = 10x10^-', min_value=1, max_value=10)
 
 car1, car2, car3 = bar2.columns([1, 1, 1])
 if car2.button("resuelve!"):
-    col1, col2 = st.columns([1, 1])
     x_values = np.linspace(-10, 10, 100)
-    iteraciones = 0
-    root = 0
-    error_list = []
 
 
     def evaluate_expression(expression, x_values):
@@ -119,6 +112,12 @@ if car2.button("resuelve!"):
 
 
     y_values = evaluate_expression(func, x_values)
+    func = eval(func)
+    col1, col2 = st.columns([1, 1])
+    iteraciones = 0
+    root = 0
+    error_list = []
+
     if y_values is not None:
         fig, ax = plt.subplots()
         ax.plot(x_values, y_values, color='red')
@@ -211,15 +210,13 @@ if car2.button("resuelve!"):
             return iterations, solp1
             ''')
 
-
     # LLAMAR A LAS FUNCIONES
-    y = eval(func)
-    y_prim = diff(y)
+    y_prim = diff(func)
     y_n = integrate(y_prim, x)
 
     col1.write("Función")
-    col1.write(y)
-    valor_aproximado = y_n.subs(x,root)
+    col1.write(func)
+    valor_aproximado = y_n.subs(x, root)
     st.success(f'''
                     Numero de Iteraciones:{iteraciones}
                     
@@ -236,7 +233,3 @@ if car2.button("resuelve!"):
     ax.tick_params(axis='both', colors='white')
     fig.patch.set_facecolor('#0F1116')
     st.pyplot(plt)
-
-
-
-
