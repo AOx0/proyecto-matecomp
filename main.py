@@ -134,21 +134,21 @@ if car2.button("resuelve!"):
         iteraciones, root, error_list = bisection_method(func, 10 * 10 ** (-mistake))
         if on:
             st.code('''
-            def bisection_method(funcion, error):
-                funcion = eval(funcion)
-                a = -100.0
-                b = 100.0
-                iterations = 0
-                y_value = 0
-                while (b - a) / 2 >= error:
-                    c = (b + a) / 2.0
-                    y_value = c
-                    if funcion.evalf(subs={x: c}) >= 0:
-                        b = c
-                    else:
-                        a = c
-                    iterations += 1
-                return iterations, y_value
+                def newton_raphson(funcion, error_g):
+                    g_func_prima = funcion.diff(x)
+                    error = 1.0
+                    iteracion = 0
+                    X_val = random.uniform(1, 100)
+                    X_new = 0
+                    error_l = []
+                    while error >= error_g:
+                        X_new = X_val - ((funcion.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
+                        error = calc_error(X_new, X_val)
+                        error_l.append(error)
+                        iteracion += 1
+                        print(f'Iteración {iteracion}: {X_new}')
+                        X_val = X_new
+                    return iteracion, X_new, error_l
             ''')
 
 
@@ -159,24 +159,24 @@ if car2.button("resuelve!"):
         if on:
             st.code('''
             def calc_error(punto_n, punto_v):
-                e = abs((punto_n - punto_v) / punto_n)
+                e = abs((punto_n - punto_v) / 2)
                 return e
-            
-            
+                
             def newton_raphson(funcion, error_g):
-                g_func = eval(funcion)
-                g_func_prima = g_func.diff(x)
+                g_func_prima = funcion.diff(x)
                 error = 1.0
                 iteracion = 0
                 X_val = random.uniform(1, 100)
                 X_new = 0
+                error_l = []
                 while error >= error_g:
-                    X_new = X_val - ((g_func.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
+                    X_new = X_val - ((funcion.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
                     error = calc_error(X_new, X_val)
+                    error_l.append(error)
                     iteracion += 1
                     print(f'Iteración {iteracion}: {X_new}')
                     X_val = X_new
-                return iteracion, X_new
+                return iteracion, X_new, error_l
             ''')
 
     elif metodo == "SECANTE":
@@ -186,28 +186,21 @@ if car2.button("resuelve!"):
         if on:
             st.code('''
             def secante(funcion, error):
-            funcion = eval(funcion)
-            # 40, 39
-            solp1 = 10
-            # solm1 = random.uniform(1, 10)
-            solm1 = 11
-            iterations = 0
-            mistake = 1
-
-            while mistake >= error:
-                iterations += 1
-                a = solp1
-                solp1 = solp1 - \
-                        (
-                                (solp1 - solm1) /
-                                (funcion.evalf(subs={x: solp1}) - funcion.evalf(subs={x: solm1}))
-                                * (funcion.evalf(subs={x: solp1}))
-                        )
-                solm1 = a
-                mistake = abs(solp1 - solm1) / 2.
-                print(f'Iteración {iterations}: {solp1}')
-
-            return iterations, solp1
+                solp1 = 10
+                solm1 = 11
+                iterations = 0
+                mistake = 1
+                error_l = []
+                while mistake >= error:
+                    iterations += 1
+                    a = solp1
+                    solp1 = solp1 - ((solp1 - solm1) / (funcion.evalf(subs={x: solp1}) - funcion.evalf(subs={x: solm1}))* (funcion.evalf(subs={x: solp1})))
+                    solm1 = a
+                    mistake = abs(solp1 - solm1) / 2.
+                    error_l.append(mistake)
+                    print(f'Iteración {iterations}: {solp1}')
+            
+                return iterations, solp1, error_l
             ''')
 
     # LLAMAR A LAS FUNCIONES
