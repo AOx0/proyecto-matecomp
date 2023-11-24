@@ -134,21 +134,24 @@ if car2.button("resuelve!"):
         iteraciones, root, error_list = bisection_method(func, 10 * 10 ** (-mistake))
         if on:
             st.code('''
-                def newton_raphson(funcion, error_g):
-                    g_func_prima = funcion.diff(x)
-                    error = 1.0
-                    iteracion = 0
-                    X_val = random.uniform(1, 100)
-                    X_new = 0
+                def bisection_method(funcion, error):
+                    a = -100.0
+                    b = 100.0
+                    iterations = 0
+                    y_value = 0
                     error_l = []
-                    while error >= error_g:
-                        X_new = X_val - ((funcion.evalf(subs={x: X_val})) / (g_func_prima.evalf(subs={x: X_val})))
-                        error = calc_error(X_new, X_val)
-                        error_l.append(error)
-                        iteracion += 1
-                        print(f'Iteración {iteracion}: {X_new}')
-                        X_val = X_new
-                    return iteracion, X_new, error_l
+                    e = 1
+                    while e >= error:
+                        c = (b + a) / 2.0
+                        y_value = c
+                        if funcion.evalf(subs={x: c}) >= 0:
+                            b = c
+                        else:
+                            a = c
+                        e = (b - a) / 2
+                        error_l.append(e)
+                        iterations += 1
+                    return iterations, y_value, error_l
             ''')
 
 
