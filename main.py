@@ -4,26 +4,35 @@ from sympy import symbols, Eq, diff, evalf
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+
 x = symbols('x')
+
+
 # ESPACIO DE LAS FUNCIONES
 
-def secante(funcion, error):
-    f = lambda x: funcion.evalf(subs={x: x})
-    solp1 = 1.0
-    solm1 = 3.4
-    #e = 1
+def secante(funcion, error, value):
+    funcion = eval(funcion)
+    # 40, 39
+    solp1 = 10
+    # solm1 = random.uniform(1, 10)
+    solm1 = 11
     iterations = 0
-    y_value = 0
+    mistake = 1
 
-    for i in 100000000:
+    while mistake >= error:
         iterations += 1
         a = solp1
-        solp1 = solp1 - (solp1 - solm1) / (f(solp1) - f(solm1)) * f(solp1)
+        solp1 = solp1 - \
+                (
+                        (solp1 - solm1) /
+                        (funcion.evalf(subs={x: solp1}) - funcion.evalf(subs={x: solm1}))
+                        * (funcion.evalf(subs={x: solp1}))
+                )
         solm1 = a
-        #e = abs(solp1 - solm1)
-        y_value = solp1
+        mistake = abs(solp1 - solm1) / 2.
+        print(f'Iteración {iterations}: {solp1}')
 
-    return iterations, y_value
+    return iterations, solp1
 
 
 def bisection_method(funcion, error):
@@ -62,6 +71,7 @@ def newton_raphson(funcion, error_g):
         print(f'Iteración {iteracion}: {X_new}')
         X_val = X_new
     return iteracion, X_new
+
 
 #
 
@@ -140,4 +150,3 @@ with st.sidebar:
     st.write("Lorenzo Reinoso")
     st.write("Iván Dominguez")
     st.write("Abril Bautista")
-
