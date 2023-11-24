@@ -10,7 +10,7 @@ x = symbols('x')
 
 # ESPACIO DE LAS FUNCIONES
 
-def secante(funcion, error, value):
+def secante(funcion, error):
     funcion = eval(funcion)
     # 40, 39
     solp1 = 10
@@ -126,6 +126,8 @@ if car2.button("resuelve!"):
     elif metodo == "SECANTE":
         col1.write("Formula")
         col1.latex(r''' X_{n+1} = X_{n} - \frac{X_n-X_{n-1}}{f(X_n)-f(X_{n-1})}f(X_n)''')
+        iteraciones, root = secante(func, 10 * 10 ** (-mistake))
+
 
     # LLAMAR A LAS FUNCIONES
     y = eval(func)
