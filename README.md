@@ -17,30 +17,31 @@ Ensure that you have Rust installed to compile and run the Rust files. You can i
 
 ### Python Program
 To run the main Python program, execute the following command:
-´´´python
+```python
 streamlit run main.py
-´´´
+```
+
 Visit the provided URL (usually http://localhost:8501) in your web browser to interact with the Streamlit app.
 ### Rust Programs
 To run the Rust programs in the src/bin directory, navigate to the project root and use the following commands:
 
 Bisection method
-´´´bash
+```bash
 cargo run --bin bis
-´´´
+```
 Newton-Raphson method
-´´´bash
+```bash
 cargo run --bin nr
-´´´
-Newton-Raphson Hybrid method
-´´´bash
-cargo run --bin nrh
-´´´
-Secant method
-´´´bash
-cargo run --bin sec
-´´´
+```
 
+Newton-Raphson Hybrid method
+```bash
+cargo run --bin nrh
+```
+Secant method
+```bash
+cargo run --bin sec
+```
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
